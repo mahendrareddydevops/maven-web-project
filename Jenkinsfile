@@ -2,35 +2,41 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'devopsdeepdive2', url: 'https://github.com/devopsdeepdive/maven-web-project.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/mahendrareddydevops/maven-web-project.git']]])
             }
         }
-         stage('Build') {
+        stage('validate') {
             steps {
                 bat 'mvn validate'
-        }
-    }
-        stage('package') {
-            steps {
-                bat 'mvn clean package'
-        }
-    }
-     /*  stage('Test') {
-            steps {
-                bat 'mvn test'
-        }
-    } */
-         stage('Deploy') {
-            steps {
-                bat 'mvn install tomcat7:deploy'
-        }
-    }
-     stage('Notification') {
-            steps {
-                slackSend channel: '#pipeline-jobs', color: 'good', iconEmoji: ':with:grin:', message: 'Build is succesful and deployed', tokenCredentialId: 'slack'
-        }
-    }
-}
-}
+            }
+			}
+            stage('compile') {
+                steps {
+                    bat 'mvn compile'
+                }
+				}
+                stage('install') {
+                    steps {
+                        bat 'mvn install'
+                    }
+					}
+                    stage('test') {
+                        steps {
+                            bat 'mvn test'
+                        }
+						}
+                        stage('package') {
+                            steps {
+                                bat 'mvn package'
+                            }
+                            }
+                        
+                        
+                                       
+               }
+                }
+            
+    
+
