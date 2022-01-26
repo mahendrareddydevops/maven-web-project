@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent 'jenkins_agent'
 	tools {
 		jdk "Java_home" 
 maven "Maven_Home"
